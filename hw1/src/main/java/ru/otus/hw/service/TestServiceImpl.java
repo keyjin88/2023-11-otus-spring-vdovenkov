@@ -7,6 +7,7 @@ import ru.otus.hw.dao.QuestionDao;
 public class TestServiceImpl implements TestService {
 
     private final IOService ioService;
+
     private final QuestionDao questionDao;
 
     @Override
