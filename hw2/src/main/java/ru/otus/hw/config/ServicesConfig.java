@@ -1,6 +1,5 @@
 package ru.otus.hw.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.hw.dao.QuestionDao;
@@ -24,25 +23,24 @@ public class ServicesConfig {
     }
 
     @Bean
-    public TestService testService(@Qualifier("ioService") IOService ioService,
-                                   @Qualifier("questionDao") QuestionDao questionDao) {
+    public TestService testService(IOService ioService, QuestionDao questionDao) {
         return new TestServiceImpl(ioService, questionDao);
     }
 
     @Bean
-    public StudentService studentService(@Qualifier("ioService") IOService ioService) {
+    public StudentService studentService(IOService ioService) {
         return new StudentServiceImpl(ioService);
     }
 
     @Bean
-    public ResultService resultService(AppProperties appProperties, @Qualifier("ioService") IOService ioService) {
+    public ResultService resultService(AppProperties appProperties, IOService ioService) {
         return new ResultServiceImpl(appProperties, ioService);
     }
 
     @Bean
-    public TestRunnerService personService(@Qualifier("testService") TestService testService,
-                                           @Qualifier("studentService") StudentService studentService,
-                                           @Qualifier("resultService") ResultService resultService) {
+    public TestRunnerService personService(TestService testService,
+                                           StudentService studentService,
+                                           ResultService resultService) {
         return new TestRunnerServiceImpl(testService, studentService, resultService);
     }
 }
