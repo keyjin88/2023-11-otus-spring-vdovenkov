@@ -24,20 +24,18 @@ public class TestServiceImpl implements TestService {
 
         for (int i = 0; i < questions.size(); i++) {
             var question = questions.get(i);
-            var isAnswerValid = false;
             ioService.printFormattedLine("Question %d: %s", i, question.text());
             List<Answer> answers = question.answers();
             for (int j = 0; j < answers.size(); j++) {
                 Answer answer = answers.get(j);
                 ioService.printFormattedLine("%d) %s", j, answer.text());
             }
-            var answer = ioService.readIntForRangeWithPrompt(
+            var answerIndex = ioService.readIntForRangeWithPrompt(
                     0,
                     question.answers().size(),
                     "Enter answer number: ",
                     "Answer must be from 0 to %d".formatted(question.answers().size() - 1));
-            isAnswerValid = question.answers().get(answer).isCorrect();
-            testResult.applyAnswer(question, isAnswerValid);
+            testResult.applyAnswer(question, question.answers().get(answerIndex).isCorrect());
         }
         return testResult;
     }
