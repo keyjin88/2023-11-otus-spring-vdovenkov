@@ -1,11 +1,15 @@
 package ru.vavtech.hw3.config;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.Locale;
 
 @Setter
-@Configuration
+//@Configuration
+@ConfigurationProperties(prefix = "application")
 public class AppProperties implements TestConfig, TestFileNameProvider {
 
     @Value("${test.rightAnswersCountToPass}")
@@ -13,6 +17,10 @@ public class AppProperties implements TestConfig, TestFileNameProvider {
 
     @Value("${test.fileName}")
     private String testFileName;
+
+    @Getter
+    @Value("${application.locale}")
+    private Locale locale;
 
     @Override
     public int getRightAnswersCountToPass() {

@@ -1,11 +1,13 @@
 package ru.vavtech.hw3;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.vavtech.hw3.service.TestRunnerService;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import ru.vavtech.hw3.config.AppProperties;
+
 
 @SpringBootApplication
+@EnableConfigurationProperties(AppProperties.class)
 public class Hw3Application {
 
     public static void main(String[] args) {

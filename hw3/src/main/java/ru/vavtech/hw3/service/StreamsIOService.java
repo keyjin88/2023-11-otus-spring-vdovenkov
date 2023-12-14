@@ -1,20 +1,19 @@
 package ru.vavtech.hw3.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+import ru.vavtech.hw3.config.AppProperties;
 
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.Scanner;
 
 @Service
 public class StreamsIOService implements IOService {
     private static final int MAX_ATTEMPTS = 10;
+
+    private final AppProperties appProperties;
 
     private final PrintStream printStream;
 
@@ -25,21 +24,23 @@ public class StreamsIOService implements IOService {
     public StreamsIOService(
             @Value("#{T(System).out}") PrintStream printStream,
             @Value("#{T(System).in}") InputStream inputStream,
-            MessageSource messageSource) {
+            MessageSource messageSource,
+            AppProperties appProperties) {
         this.printStream = printStream;
         this.scanner = new Scanner(inputStream);
         this.messageSource = messageSource;
+        this.appProperties = appProperties;
     }
 
     @Override
     public void printLine(String s) {
-        String message = messageSource.getMessage(s, new Object[]{}, LocaleContextHolder.getLocale());
+        String message = messageSource.getMessage(s, new Object[]{}, appProperties.getLocale());
         printStream.println(message);
     }
 
     @Override
     public void printFormattedLine(String s, Object... args) {
-        String formattedString = messageSource.getMessage(s, args, LocaleContextHolder.getLocale());
+        String formattedString = messageSource.getMessage(s, args, appProperties.getLocale());
         printStream.println(formattedString);
     }
 

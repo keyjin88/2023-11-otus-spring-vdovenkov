@@ -1,10 +1,10 @@
 test:
   rightAnswersCountToPass: 3
-  fileName: questions.csv
+  fileName: questions/questions
 spring:
-#  locale: ru_RU
   messages:
-    basename: messages.csv
-    encoding: UTF-8
-    cache-duration: -1
-    fallback-to-system-locale: true
+    basename: "i18n/messages"
+    encoding: "UTF-8"
+
+application:
+  locale: ru_RU

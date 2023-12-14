@@ -1,19 +1,25 @@
 package ru.vavtech.hw3.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import ru.vavtech.hw3.config.AppProperties;
 import ru.vavtech.hw3.domain.Student;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
+    private final MessageSource messageSource;
+
+    private final AppProperties props;
+
     private final IOService ioService;
 
     @Override
     public Student determineCurrentStudent() {
-        var firstName = ioService.readStringWithPrompt("first.name.request");
-        var lastName = ioService.readStringWithPrompt("last.name.request");
+        var firstName = ioService.readStringWithPrompt("enter.student.name");
+        var lastName = ioService.readStringWithPrompt("enter.student.lastName");
         return new Student(firstName, lastName);
     }
 }

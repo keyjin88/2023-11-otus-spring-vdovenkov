@@ -4,13 +4,12 @@ package ru.vavtech.hw3.dao;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+import ru.vavtech.hw3.config.AppProperties;
 import ru.vavtech.hw3.config.TestFileNameProvider;
 import ru.vavtech.hw3.dao.dto.QuestionDto;
 import ru.vavtech.hw3.domain.Question;
 import ru.vavtech.hw3.exceptions.QuestionReadException;
-
 
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -20,11 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
     private final TestFileNameProvider fileNameProvider;
-    private final MessageSource messageSource;
+    private final AppProperties properties;
 
     @Override
     public List<Question> findAll() {
-        String fileName = fileNameProvider.getTestFileName();
+        String fileName = fileNameProvider.getTestFileName() + "_" + properties.getLocale() + ".csv";
         try (InputStreamReader reader = new InputStreamReader(
                 getClass().getClassLoader().getResourceAsStream(fileName), StandardCharsets.UTF_8);) {
             CsvToBean<QuestionDto> csvToBean = new CsvToBeanBuilder<QuestionDto>(reader)
