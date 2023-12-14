@@ -4,6 +4,7 @@ package ru.vavtech.hw3.dao;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import ru.vavtech.hw3.config.TestFileNameProvider;
 import ru.vavtech.hw3.dao.dto.QuestionDto;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
     private final TestFileNameProvider fileNameProvider;
+    private final MessageSource messageSource;
 
     @Override
     public List<Question> findAll() {

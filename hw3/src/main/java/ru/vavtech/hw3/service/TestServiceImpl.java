@@ -19,8 +19,8 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestResult executeTestFor(Student student) {
-        ioService.printLine("");
-        ioService.printFormattedLine("Please answer the questions below%n");
+        ioService.printLine("empty.message");
+        ioService.printFormattedLine("welcome.message");
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 

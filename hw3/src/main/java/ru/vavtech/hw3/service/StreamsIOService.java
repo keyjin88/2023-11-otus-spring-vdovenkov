@@ -1,10 +1,15 @@
 package ru.vavtech.hw3.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 @Service
@@ -15,20 +20,27 @@ public class StreamsIOService implements IOService {
 
     private final Scanner scanner;
 
-    public StreamsIOService(@Value("#{T(System).out}") PrintStream printStream,
-                            @Value("#{T(System).in}") InputStream inputStream) {
+    private final MessageSource messageSource;
+
+    public StreamsIOService(
+            @Value("#{T(System).out}") PrintStream printStream,
+            @Value("#{T(System).in}") InputStream inputStream,
+            MessageSource messageSource) {
         this.printStream = printStream;
         this.scanner = new Scanner(inputStream);
+        this.messageSource = messageSource;
     }
 
     @Override
     public void printLine(String s) {
-        printStream.println(s);
+        String message = messageSource.getMessage(s, new Object[]{}, LocaleContextHolder.getLocale());
+        printStream.println(message);
     }
 
     @Override
     public void printFormattedLine(String s, Object... args) {
-        printStream.printf(s + "%n", args);
+        String formattedString = messageSource.getMessage(s, args, LocaleContextHolder.getLocale());
+        printStream.println(formattedString);
     }
 
     @Override
