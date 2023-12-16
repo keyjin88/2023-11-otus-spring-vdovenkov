@@ -12,7 +12,6 @@ import ru.vavtech.hw3.domain.Question;
 import ru.vavtech.hw3.exceptions.QuestionReadException;
 
 import java.util.List;
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -33,9 +32,7 @@ class CsvQuestionDaoTest {
 
     @Test
     void testFindAll() {
-        var testFileName = "questions";
-        when(fileNameProvider.getTestFileName()).thenReturn(testFileName);
-        when(fileNameProvider.getLocale()).thenReturn(Locale.ENGLISH);
+        when(fileNameProvider.getTestFileName()).thenReturn("questions_en.csv");
 
         List<Question> questions = csvQuestionDao.findAll();
 

@@ -23,7 +23,7 @@ public class CsvQuestionDao implements QuestionDao {
 
     @Override
     public List<Question> findAll() {
-        String fileName = fileNameProvider.getTestFileName() + "_" + properties.getLocale() + ".csv";
+        String fileName = fileNameProvider.getTestFileName();
         try (InputStreamReader reader = new InputStreamReader(
                 getClass().getClassLoader().getResourceAsStream(fileName), StandardCharsets.UTF_8);) {
             CsvToBean<QuestionDto> csvToBean = new CsvToBeanBuilder<QuestionDto>(reader)

@@ -29,6 +29,6 @@ public class AppProperties implements TestConfig, TestFileNameProvider {
 
     @Override
     public String getTestFileName() {
-        return testFileName;
+        return testFileName + "_" + locale + ".csv";
     }
 }
