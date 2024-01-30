@@ -11,7 +11,7 @@
 
     <groupId>ru.vavtech</groupId>
     <artifactId>hw05-jdbc</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>hw05-jdbc</name>
 
     <properties>

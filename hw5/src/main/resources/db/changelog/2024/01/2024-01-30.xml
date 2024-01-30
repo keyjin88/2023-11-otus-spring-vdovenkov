@@ -24,48 +24,71 @@
                 id        BIGINT AUTO_INCREMENT,
                 title     VARCHAR(255) NOT NULL,
                 author_id BIGINT       NOT NULL,
-                genre_id  BIGINT       NOT NULL,
                 CONSTRAINT book_pk PRIMARY KEY (id),
-                CONSTRAINT author_fk FOREIGN KEY (author_id) REFERENCES authors (id),
-                CONSTRAINT genre_fk FOREIGN KEY (genre_id) REFERENCES genres (id)
+                CONSTRAINT author_fk FOREIGN KEY (author_id) REFERENCES authors (id)
+            );
+
+            CREATE TABLE books_genres
+            (
+                book_id  BIGINT REFERENCES books (id) ON DELETE CASCADE,
+                genre_id BIGINT REFERENCES genres (id) ON DELETE CASCADE,
+                PRIMARY KEY (book_id, genre_id)
             );
         </sql>
     </changeSet>
     <changeSet id="2024-01-30--02-populate-db" author="AV" context="!test">
         <sql>
-            INSERT INTO authors(id, full_name)
-            VALUES (DEFAULT, 'Lewis Carroll'),
-                   (DEFAULT, 'Alexandre Dumas'),
-                   (DEFAULT, 'Leo Tolstoy');
+            INSERT INTO authors(full_name)
+            VALUES ('Lewis Carroll'),
+                   ('Alexandre Dumas'),
+                   ('Leo Tolstoy');
 
-            INSERT INTO genres(id, name)
-            VALUES (DEFAULT, 'Fantasy'),
-                   (DEFAULT, 'Adventure'),
-                   (DEFAULT, 'Romance');
+            INSERT INTO genres(name)
+            VALUES ('Fantasy'),
+                   ('Adventure'),
+                   ('Romance');
 
-            INSERT INTO books(id, title, author_id, genre_id)
-            VALUES (DEFAULT, 'Alice’s Adventures in Wonderland', 1, 1),
-                   (DEFAULT, 'The Three Musketeers', 2, 2),
-                   (DEFAULT, 'Anna Karenina', 3, 3);
+            INSERT INTO books(title, author_id)
+            VALUES ('Alice’s Adventures in Wonderland', 1),
+                   ('The Three Musketeers', 2),
+                   ('Anna Karenina', 3);
+            INSERT INTO books_genres (book_id, genre_id)
+            values (1, 1),
+                   (1, 2),
+                   (1, 3),
+                   (2, 2),
+                   (2, 3),
+                   (3, 3)
         </sql>
     </changeSet>
 
     <changeSet id="2024-01-30--02-populate-db-test" author="AV" context="test">
         <sql>
-            INSERT INTO authors(id, full_name)
-            VALUES (DEFAULT, 'Author_1'),
-                   (DEFAULT, 'Author_2'),
-                   (DEFAULT, 'Author_3');
+            INSERT INTO authors(full_name)
+            VALUES ('Author_1'),
+                   ('Author_2'),
+                   ('Author_3');
 
-            INSERT INTO genres(id, name)
-            VALUES (DEFAULT, 'Genre_1'),
-                   (DEFAULT, 'Genre_2'),
-                   (DEFAULT, 'Genre_3');
+            INSERT INTO genres(name)
+            VALUES ('Genre_1'),
+                   ('Genre_2'),
+                   ('Genre_3'),
+                   ('Genre_4'),
+                   ('Genre_5'),
+                   ('Genre_6');
 
-            INSERT INTO books(id, title, author_id, genre_id)
-            VALUES (DEFAULT, 'Book_1', 1, 1),
-                   (DEFAULT, 'Book_2', 2, 2),
-                   (DEFAULT, 'Book_3', 3, 3);
+            INSERT INTO books(title, author_id)
+            VALUES ('BookTitle_1', 1),
+                   ('BookTitle_2', 2),
+                   ('BookTitle_3', 3);
+
+            INSERT INTO books_genres(book_id, genre_id)
+            VALUES (1, 1),
+                   (1, 2),
+                   (2, 3),
+                   (2, 4),
+                   (3, 5),
+                   (3, 6);
         </sql>
     </changeSet>
 

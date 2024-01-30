@@ -1,7 +1,8 @@
 package ru.vavtech.hw5.repositories;
 
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 import ru.vavtech.hw5.models.Genre;
@@ -9,28 +10,31 @@ import ru.vavtech.hw5.models.Genre;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.Set;
 
 @Repository
-@RequiredArgsConstructor
 public class JdbcGenreRepository implements GenreRepository {
-    private final NamedParameterJdbcOperations namedJdbc;
+    private final NamedParameterJdbcOperations jdbcOps;
+
+    public JdbcGenreRepository(NamedParameterJdbcOperations jdbcOps) {
+        this.jdbcOps = jdbcOps;
+    }
 
     @Override
     public List<Genre> findAll() {
-        return namedJdbc.query("SELECT id, name FROM genres", new GenreRowMapper());
+        return jdbcOps.query("select id, `name` from genres", new GenreRowMapper());
     }
 
     @Override
-    public Optional<Genre> findById(long id) {
-        var genreList = namedJdbc.query(
-                "SELECT id, name FROM genres WHERE id = :id", Map.of("id", id), new GenreRowMapper());
-        return genreList.isEmpty() ? Optional.empty() : Optional.of(genreList.get(0));
+    public List<Genre> findAllByIds(Set<Long> ids) {
+        return jdbcOps.query(
+                "select id, `name` from genres where id in (:ids)",
+                new MapSqlParameterSource("ids", ids),
+                new GenreRowMapper()
+        );
     }
 
     private static class GenreRowMapper implements RowMapper<Genre> {
-
         @Override
         public Genre mapRow(ResultSet rs, int i) throws SQLException {
             var id = rs.getLong("id");

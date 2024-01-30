@@ -5,9 +5,9 @@ spring:
     history:
       enabled: false
   datasource:
-    url: jdbc:h2:mem:book_catalogue
-    user: sa
-    password: 1
+    url: jdbc:h2:mem:maindb
+#    user: sa
+#    password: 1
     driverClassName: org.h2.Driver
 
   liquibase:

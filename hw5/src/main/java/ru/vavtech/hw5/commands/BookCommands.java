@@ -1,12 +1,13 @@
 package ru.vavtech.hw5.commands;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.vavtech.hw5.converters.BookConverter;
 import ru.vavtech.hw5.services.BookService;
 
-
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"SpellCheckingInspection", "unused"})
@@ -32,22 +33,20 @@ public class BookCommands {
                 .orElse("Book with id %d not found".formatted(id));
     }
 
-    // bins newBook 1 1
     @ShellMethod(value = "Insert book", key = "bins")
-    public String insertBook(String title, long authorId, long genreId) {
-        var savedBook = bookService.insert(title, authorId, genreId);
+    public String insertBook(String title, long authorId, Set<Long> genresIds) {
+        var savedBook = bookService.insert(title, authorId, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
-    // bupd 4 editedBook 3 2
     @ShellMethod(value = "Update book", key = "bupd")
-    public String updateBook(long id, String title, long authorId, long genreId) {
-        var savedBook = bookService.update(id, title, authorId, genreId);
+    public String updateBook(long id, String title, long authorId, Set<Long> genresIds) {
+        var savedBook = bookService.update(id, title, authorId, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
     @ShellMethod(value = "Delete book by id", key = "bdel")
-    public void updateBook(long id) {
+    public void deleteBook(long id) {
         bookService.deleteById(id);
     }
 }
