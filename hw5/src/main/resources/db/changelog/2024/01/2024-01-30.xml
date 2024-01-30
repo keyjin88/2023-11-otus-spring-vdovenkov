@@ -1,0 +1,72 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="2024-01-30--01-create-tables" author="AV">
+        <sql>
+            CREATE TABLE authors
+            (
+                id        BIGINT AUTO_INCREMENT,
+                full_name VARCHAR(255) NOT NULL,
+                CONSTRAINT author_pk PRIMARY KEY (id)
+            );
+
+            CREATE TABLE genres
+            (
+                id   BIGINT AUTO_INCREMENT,
+                name VARCHAR(255) NOT NULL,
+                CONSTRAINT genre_pk PRIMARY KEY (id)
+            );
+
+            CREATE TABLE books
+            (
+                id        BIGINT AUTO_INCREMENT,
+                title     VARCHAR(255) NOT NULL,
+                author_id BIGINT       NOT NULL,
+                genre_id  BIGINT       NOT NULL,
+                CONSTRAINT book_pk PRIMARY KEY (id),
+                CONSTRAINT author_fk FOREIGN KEY (author_id) REFERENCES authors (id),
+                CONSTRAINT genre_fk FOREIGN KEY (genre_id) REFERENCES genres (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="2024-01-30--02-populate-db" author="AV" context="!test">
+        <sql>
+            INSERT INTO authors(id, full_name)
+            VALUES (DEFAULT, 'Lewis Carroll'),
+                   (DEFAULT, 'Alexandre Dumas'),
+                   (DEFAULT, 'Leo Tolstoy');
+
+            INSERT INTO genres(id, name)
+            VALUES (DEFAULT, 'Fantasy'),
+                   (DEFAULT, 'Adventure'),
+                   (DEFAULT, 'Romance');
+
+            INSERT INTO books(id, title, author_id, genre_id)
+            VALUES (DEFAULT, 'Alice’s Adventures in Wonderland', 1, 1),
+                   (DEFAULT, 'The Three Musketeers', 2, 2),
+                   (DEFAULT, 'Anna Karenina', 3, 3);
+        </sql>
+    </changeSet>
+
+    <changeSet id="2024-01-30--02-populate-db-test" author="AV" context="test">
+        <sql>
+            INSERT INTO authors(id, full_name)
+            VALUES (DEFAULT, 'Author_1'),
+                   (DEFAULT, 'Author_2'),
+                   (DEFAULT, 'Author_3');
+
+            INSERT INTO genres(id, name)
+            VALUES (DEFAULT, 'Genre_1'),
+                   (DEFAULT, 'Genre_2'),
+                   (DEFAULT, 'Genre_3');
+
+            INSERT INTO books(id, title, author_id, genre_id)
+            VALUES (DEFAULT, 'Book_1', 1, 1),
+                   (DEFAULT, 'Book_2', 2, 2),
+                   (DEFAULT, 'Book_3', 3, 3);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
