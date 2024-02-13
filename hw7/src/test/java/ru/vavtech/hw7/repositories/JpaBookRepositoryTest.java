@@ -22,6 +22,9 @@ class JpaBookRepositoryTest {
     private BookRepository bookRepository;
 
     @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
     private TestEntityManager em;
 
     private List<Author> dbAuthors;
@@ -127,5 +130,6 @@ class JpaBookRepositoryTest {
         bookRepository.deleteById(firstBook.getId());
 
         assertThat(em.find(Book.class, firstBook.getId())).isNull();
+        assertThat(commentRepository.findByBookId(1).isEmpty()).isEqualTo(true);
     }
 }

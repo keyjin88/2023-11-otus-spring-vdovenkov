@@ -13,7 +13,7 @@ spring:
   #    password: ${DB_PASSWORD}
   #    driverClassName: org.postgresql.Driver
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
       ddl-auto: none
 
